@@ -12,13 +12,6 @@ const scopes = [
     "user-modify-playback-state",
 ];
 
-const params = {
-    scope: scopes,
-};
-
-const queryParamString = new URLSearchParams(params);
-
-
 
 const spotifyApi = new spotifyWebApi({
     clientId: process.env.SPOTIFY_CLIENT_ID,
@@ -26,5 +19,6 @@ const spotifyApi = new spotifyWebApi({
 });
 
 export default spotifyApi;
+
 
 export const LOGIN_URL = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`; 
