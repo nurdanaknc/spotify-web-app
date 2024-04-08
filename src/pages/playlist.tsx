@@ -9,12 +9,8 @@ const useDispatch = () => _useDispatch<AppDispatch>();
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 
-const inter = Inter({ subsets: ["latin"] });
-
   
-
-
-export default function Home() {
+export default function Playlist() {
   const router = useRouter();
 
 useEffect(() => {
@@ -23,8 +19,12 @@ useEffect(() => {
 , []);
   const dispatch = useDispatch();
   return (
-   <main>
-      <h1>Hello, World!</h1>
-   </main>
+   <>
+      <h1>YOUR PLAYLIST</h1>
+      <button onClick={() => signOut({
+            redirect: true,
+            callbackUrl: `/login`,
+       })  } >Logout</button>
+   </>
   );
 }
