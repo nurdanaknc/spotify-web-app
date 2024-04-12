@@ -5,7 +5,6 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import { LOGIN_URL } from '@/spotify';
 import { useDispatch as _useDispatch } from "react-redux";
 import type { AppDispatch } from "@/store";
-import { fetchToken } from '@/store/auth';
 const useDispatch = () => _useDispatch<AppDispatch>();
 import dotenv from 'dotenv';
 import Button from '@/app/components/UI/button';
