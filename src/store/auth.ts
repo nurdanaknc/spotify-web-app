@@ -3,7 +3,9 @@ import type { RootState } from ".";
 import {axiosInstance as axios} from "@/helpers/axios";
 import { json } from "stream/consumers";
 const qs = require('qs');
-import { LOGIN_URL, scopes } from "@/spotify.js";
+import { LOGIN_URL } from "@/spotify.js";
+import { useAppDispatch } from "@/store/hooks";
+import { useSelector } from "react-redux";
 
 
 const client_id = '825a75de726d4a8a9d91bd1d4cc7b207';
@@ -14,49 +16,17 @@ const data = qs.stringify({'grant_type':'client_credentials'});
 
 
 interface AuthState {
-    url : string,
-    headers : object,
-    form : object
+    deviceId: string;
+    usersPlaylists: any[];
+    selectedPlaylist: any;
 }
  
 
 const initialState: AuthState = {
-    url: 'https://accounts.spotify.com/api/token',
-    headers: {
-      'Authorization': LOGIN_URL,
-    },
-    form: {
-      grant_type: 'client_credentials'
-    }
+    deviceId: '',
+    usersPlaylists: [],
+    selectedPlaylist: null
   };
-
-
-  export const fetchToken = createAsyncThunk(
-    "auth/fetchToken",
-    async () => {
-        const token_url = 'https://accounts.spotify.com/api/token';
-        const data = qs.stringify({ 'grant_type': 'client_credentials' });
-        const refresh_token: string = process.env.SPOTIFY_REFRESH_TOKEN || "";
-
-        try {
-            const response = await fetch(
-                "https://accounts.spotify.com/api/token",
-                {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-                body: `grant_type=client_credentials&client_id=${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}&client_secret=${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET}`,
-                }
-            );
-            console.log(response.json);
-            return response.json; // İsteğin yanıtını geri döndürmek istiyorsanız ekleyebilirsiniz.
-        } catch (error) {
-            console.error('Hata:', error);
-            throw error; // Hata durumunda isteği yakalayıp uygun şekilde işleyin.
-        }
-    }
-);
 
 export const getFollowedArtists = createAsyncThunk(
     "auth/getFollowedArtists",
@@ -71,6 +41,70 @@ export const getFollowedArtists = createAsyncThunk(
     }
 );
 
+export const getUsersPlaylists = createAsyncThunk(
+    "auth/getUsersPlaylists",
+    async () => {
+        try {
+            const response = await axios.get('api/server/me/playlists');
+            return response.data;
+        } catch (error) {
+            console.error('Hata:', error);
+            throw error;
+        }
+    }
+);
+
+export const getDevices = createAsyncThunk(
+    "auth/getDevices",
+    async () => {
+        try {
+            const response = await axios.get('api/server/me/player/devices')
+            
+
+            return response;
+        } catch (error) {
+            console.error('Hata:', error);
+            throw error;
+        }
+    }
+);
+
+export const startOrResumePlayback = createAsyncThunk(
+    "auth/startOrResumePlayback",
+    async (deviceId: string) => {
+     
+        try {
+            const response = await axios.put(`api/server/me/player/play?device_id=${deviceId}`,
+            {
+                'device_id': deviceId,
+                'context_uri': 'spotify:album:5ht7ItJgpBH7W6vJ5BqpPr',
+                'offset': {
+                    'position': 5
+                },
+                'position_ms': 0
+            },
+            );
+            console.log(deviceId)
+            return response.data;
+        } catch (error) {
+            console.error('Hata:', error);
+            throw error;
+        }
+    }
+);
+
+export const getSelectedPlaylist = createAsyncThunk(    
+    "auth/getSelectedPlaylist",
+    async (playlistId: string) => {
+        try {
+            const response = await axios.get(`api/server/playlists/${playlistId}`);
+            return response.data;
+        } catch (error) {
+            console.error('Hata:', error);
+            throw error;
+        }
+    }
+);
 
 
 
@@ -80,12 +114,22 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
+        setDeviceId: (state, action: PayloadAction<string>) => {
+            state.deviceId = action.payload;
+        },
+        setUsersPlaylists: (state, action: PayloadAction<any>) => {
+            state.usersPlaylists = action.payload;
+        },
+        setSelectedPlaylist: (state, action: PayloadAction<any>) => {   
+            state.selectedPlaylist = action.payload;
+        }
+
 
     },
     
 });
 
-export const {  } = authSlice.actions;
+export const { setDeviceId, setUsersPlaylists , setSelectedPlaylist} = authSlice.actions;
 
 export default authSlice.reducer;
 

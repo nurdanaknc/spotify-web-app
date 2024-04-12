@@ -32,7 +32,7 @@ export default function Login() {
     return (
         <div className='flex flex-col h-screen w-screen justify-center items-center'>
             <Navbar />
-            <div className='flex flex-col text-center justify-around rounded-xl w-fit h-[70%] gap-20  px-20 py-28 bg-black '>
+            <div className='flex flex-col text-center items-center justify-around rounded-xl w-fit h-[70%] gap-20  px-20 py-28 bg-black '>
                 <div className='flex flex-col gap-7 items-center text-center justify-center'>
                 <img src='/img/spotifyIcon.svg' className='w-20 h-20 flex items-center' />
                 <span className='text-white text-4xl'>Spotify Web App Project</span>

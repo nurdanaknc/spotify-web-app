@@ -35,7 +35,6 @@ const scopes = [
   
   const querParamString = new URLSearchParams(params);
   
-  const LOGIN_URL =
-    'https://accounts.spotify.com/authorize?' + querParamString.toString();
+  const LOGIN_URL = 'https://accounts.spotify.com/authorize?' + querParamString.toString();
 
   export { LOGIN_URL };

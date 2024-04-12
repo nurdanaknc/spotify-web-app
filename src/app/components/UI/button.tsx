@@ -5,6 +5,7 @@ type ButtonProps = {
     icon?: any;
     chevron?: "left" | "right";
     action?: "play" | "pause" | "lyrics" | "forward" | "backward" | "queue" | "shuffle";
+    className?: string;
 };
 
 const chevronLeft = [<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-grey6">
@@ -32,7 +33,8 @@ export default function Button(props: ButtonProps) {
         return (
             <button
                 onClick={props.onClick}
-                className=" font-semibold bg-primaryGreen text-primaryBlack px-10 py-3 rounded-full hover:bg-[#61C86A]"
+                className={" font-semibold w-fit h-fit bg-primaryGreen text-primaryBlack px-10 py-3 rounded-full hover:bg-[#61C86A]" + props.className}
+
             >
                 {props.children}
             </button>
@@ -42,7 +44,7 @@ export default function Button(props: ButtonProps) {
         return (
             <button
                 onClick={props.onClick}
-                className="flex flex-row justify-around gap-2 font-semibold border border-primaryWhite text-primaryWhite px-10 py-3 rounded-full hover:text-[#BBBBBB] hover:border-[#BBBBBB]"
+                className={"flex flex-row w-fit h-fit justify-around gap-2 font-semibold border border-primaryWhite text-primaryWhite px-10 py-3 rounded-full hover:text-[#BBBBBB] hover:border-[#BBBBBB]" + props.className}
             >
                 {props.icon}
                 {props.children}
@@ -53,7 +55,7 @@ export default function Button(props: ButtonProps) {
         return (
             <button
                 onClick={props.onClick}
-                className="font-semibold text-grey6 hover:text-primaryWhite"
+                className={"font-semibold w-fit h-fit text-grey6 hover:text-primaryWhite" + props.className }
             >
                 {props.children}
             </button>
@@ -63,7 +65,7 @@ export default function Button(props: ButtonProps) {
         return (
             <button
                 onClick={props.onClick}
-                className="flex justify-center items-center bg-primaryBlack hover:text-primaryWhite rounded-full p-2"
+                className={"flex w-fit h-fit justify-center items-center bg-primaryBlack hover:text-primaryWhite rounded-full p-2" + props.className}
             >
                 {props.chevron === "left" ? chevronLeft : chevronRight}
             </button>
@@ -73,7 +75,7 @@ export default function Button(props: ButtonProps) {
         return (
             <button
                 onClick={props.onClick}
-                className="flex justify-center items-center"
+                className={"flex w-fit h-fit justify-center items-center" + props.className}
                 onMouseOver={()=> setOnFocus(true)}
                 onMouseLeave={()=> setOnFocus(false)}
             >

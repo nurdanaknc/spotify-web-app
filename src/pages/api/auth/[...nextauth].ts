@@ -120,7 +120,7 @@ export const authOptions: NextAuthOptions = {
       session.accessToken = token.accessToken
       session.error = token.error
       session.user = token.user
-      // console.log(session)
+      //console.log(session)
       
       return session
      
