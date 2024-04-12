@@ -4,14 +4,6 @@ export const authEndpoint = "https://accounts.spotify.com/authorize";
 const redirectUri = "http://localhost:3000/";
 const clientId = "cef1dda3977d433a8accf0e569cc5604";
 
-export const scopes = [
-    "user-read-currently-playing",
-    "user-read-recently-played",
-    "user-read-playback-state",
-    "user-top-read",
-    "user-modify-playback-state",
-];
-
 
 const spotifyApi = new spotifyWebApi({
     clientId: process.env.SPOTIFY_CLIENT_ID,
@@ -20,5 +12,30 @@ const spotifyApi = new spotifyWebApi({
 
 export default spotifyApi;
 
+const scopes = [
+    'user-read-email',
+    'playlist-read-private',
+    'playlist-read-collaborative',
+    'user-read-email',
+    'streaming',
+    'user-read-private',
+    'user-library-read',
+    'user-top-read',
+    // "user-library-modify",
+    'user-read-playback-state',
+    'user-modify-playback-state',
+    'user-read-currently-playing',
+    'user-read-recently-played',
+    'user-follow-read',
+  ].join(',');
+  
+  const params = {
+    scope: scopes,
+  };
+  
+  const querParamString = new URLSearchParams(params);
+  
+  const LOGIN_URL =
+    'https://accounts.spotify.com/authorize?' + querParamString.toString();
 
-export const LOGIN_URL = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`; 
+  export { LOGIN_URL };

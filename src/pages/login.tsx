@@ -20,6 +20,12 @@ const questionMark = [
 ];
 
 export default function Login() {
+    const { data: session } = useSession();
+    useEffect(() => {
+   
+        //@ts-ignore
+        localStorage.setItem("accessToken", session?.accessToken || ""); //session local storage a kaydedildi, bunun yerine storeda da tutulabilir.
+      }, [session]);
 
 
     const dispatch = useDispatch();
@@ -35,8 +41,10 @@ export default function Login() {
                 </div>
                 <Button type='primary' onClick={() => signIn('spotify', {
                     redirect: true,
-                    callbackUrl: `/playlist`,
+                    callbackUrl: `/`,
                 })} >Login With Spotify</Button>
+
+                
             
 
 

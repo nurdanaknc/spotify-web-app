@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthOptions, Session } from "next-auth"
 import SpotifyProvider from "next-auth/providers/spotify";
-import { LOGIN_URL, scopes } from "@/spotify.js";
+import { LOGIN_URL } from "@/spotify.js";
 import axios from "axios";
 const SPOTIFY_REFRESH_TOKEN_URL = 'https://accounts.spotify.com/api/token'
 const CLIENT_ID = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID
@@ -75,7 +75,7 @@ export const authOptions: NextAuthOptions = {
     SpotifyProvider({
       clientId: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID!,
       clientSecret: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET!,
-
+      authorization: LOGIN_URL,
     }),
   ],
   pages: {
@@ -88,13 +88,14 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({user, account, profile}) {
-      console.log(user, "user")
+      //console.log(user, "user")
       return true
     },
     async jwt({ token, account, user }) {
       try{
       if (account && user) {
-        console.log(account.access_token, "account.access_token")
+       // console.log(account.access_token, "account.access_token")
+        
         return {
           accessToken: account.access_token,
           refreshToken: account.refresh_token,
@@ -108,7 +109,7 @@ export const authOptions: NextAuthOptions = {
       const newToken = await refreshAccessToken(token)
       return newToken
     } catch (error) {
-      console.log("error", error)
+      // console.log("error", error)
       return {
         ...token,
         error: 'RefreshAccessTokenError',
@@ -118,9 +119,11 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       session.accessToken = token.accessToken
       session.error = token.error
-      session.user = token.user,
-      console.log(session)
+      session.user = token.user
+      // console.log(session)
+      
       return session
+     
     },
   },
 }

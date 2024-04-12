@@ -58,6 +58,19 @@ const initialState: AuthState = {
     }
 );
 
+export const getFollowedArtists = createAsyncThunk(
+    "auth/getFollowedArtists",
+    async () => {
+        try {
+            const response = await axios.get('api/server/me/following?type=artist');
+            return response.data;
+        } catch (error) {
+            console.error('Hata:', error);
+            throw error;
+        }
+    }
+);
+
 
 
 
