@@ -7,14 +7,6 @@ import { LOGIN_URL } from "@/spotify.js";
 import { useAppDispatch } from "@/store/hooks";
 import { useSelector } from "react-redux";
 
-
-const client_id = '825a75de726d4a8a9d91bd1d4cc7b207';
-const client_secret = '96673ec2a227494d8937ea5e158f1ccc';
-const auth_token = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
-
-const data = qs.stringify({'grant_type':'client_credentials'});
-
-
 interface AuthState {
     deviceId: string;
     usersPlaylists: any[];
