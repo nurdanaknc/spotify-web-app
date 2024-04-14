@@ -62,7 +62,7 @@ useEffect(() => {
 , [deviceId]);
   
   return (
-    <div className="p-3 flex flex-row gap-2 ">
+    <div className="p-3 flex flex-row gap-2 w-screen ">
         <Sidebar />
         <Playlist />
     

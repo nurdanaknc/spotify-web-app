@@ -19,13 +19,15 @@ interface AuthState {
     deviceId: string;
     usersPlaylists: any[];
     selectedPlaylist: any;
+    gradient: string;
 }
  
 
 const initialState: AuthState = {
     deviceId: '',
     usersPlaylists: [],
-    selectedPlaylist: null
+    selectedPlaylist: null,
+    gradient: ''
   };
 
 export const getFollowedArtists = createAsyncThunk(
@@ -122,6 +124,9 @@ const authSlice = createSlice({
         },
         setSelectedPlaylist: (state, action: PayloadAction<any>) => {   
             state.selectedPlaylist = action.payload;
+        },
+        setGradient: (state, action: PayloadAction<string>) => {
+            state.gradient = action.payload;
         }
 
 
@@ -129,7 +134,7 @@ const authSlice = createSlice({
     
 });
 
-export const { setDeviceId, setUsersPlaylists , setSelectedPlaylist} = authSlice.actions;
+export const { setDeviceId, setUsersPlaylists , setSelectedPlaylist, setGradient} = authSlice.actions;
 
 export default authSlice.reducer;
 
