@@ -84,7 +84,7 @@ export default function Playlist(props: any) {
             {playlist.tracks.items.map((track: any, index: number) => (
               <li key={index} className="flex ">
                 <div className="flex flex-row gap-4 items-center w-full cursor-pointer rounded-md p-2 hover:bg-grey4 hover:bg-opacity-20 hover:text-white"
-                onClick={()=> dispatch(startOrResumePlayback({deviceId: deviceId, albumUri:track?.track?.album?.uri,trackUri: track?.track?.uri, action:"play"})) } >
+                  onClick={() => dispatch(startOrResumePlayback({ deviceId: deviceId, albumUri: track?.track?.album?.uri, trackUri: track?.track?.uri, action: "play" }))} >
                   <span >{index + 1}</span>
                   <img
                     src={track?.track.album.images[0].url}
