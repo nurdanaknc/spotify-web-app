@@ -1,4 +1,4 @@
-import { getSelectedPlaylist } from "@/store/auth";
+import { getSelectedPlaylist, startOrResumePlayback } from "@/store/auth";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect, useState } from "react";
 import Vibrant from "node-vibrant";
@@ -8,6 +8,7 @@ export default function Playlist(props: any) {
   const selectedPlaylist = useAppSelector(
     (state) => state.auth.selectedPlaylist
   );
+  const deviceId = useAppSelector((state) => state.auth.deviceId);
   const [gradient, setGradient] = useState<string>(``);
   const bg = `bg-[#1e1e1e]`;
   const dispatch = useAppDispatch();
@@ -79,10 +80,11 @@ export default function Playlist(props: any) {
       </div>
       <div className=" bg-grey6 bg-transparent backdrop-blur-3xl  h-full bg-opacity-20 p-3">
         {playlist.tracks?.items && (
-          <ol className="mt-8 flex  flex-col  gap-4">
+          <ol className="mt-8 flex  flex-col  gap-2">
             {playlist.tracks.items.map((track: any, index: number) => (
               <li key={index} className="flex ">
-                <div className="flex flex-row gap-4 items-center">
+                <div className="flex flex-row gap-4 items-center w-full cursor-pointer rounded-md p-2 hover:bg-grey4 hover:bg-opacity-20 hover:text-white"
+                  onClick={() => dispatch(startOrResumePlayback({ deviceId: deviceId, albumUri: track?.track?.album?.uri, trackUri: track?.track?.uri, action: "play" }))} >
                   <span >{index + 1}</span>
                   <img
                     src={track?.track.album.images[0].url}

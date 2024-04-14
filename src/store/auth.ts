@@ -7,14 +7,6 @@ import { LOGIN_URL } from "@/spotify.js";
 import { useAppDispatch } from "@/store/hooks";
 import { useSelector } from "react-redux";
 
-
-const client_id = '825a75de726d4a8a9d91bd1d4cc7b207';
-const client_secret = '96673ec2a227494d8937ea5e158f1ccc';
-const auth_token = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
-
-const data = qs.stringify({'grant_type':'client_credentials'});
-
-
 interface AuthState {
     deviceId: string;
     usersPlaylists: any[];
@@ -29,6 +21,13 @@ const initialState: AuthState = {
     selectedPlaylist: null,
     gradient: ''
   };
+
+interface playActionStates {
+    deviceId: string;
+    albumUri: string;
+    trackUri: string;
+    action: string;
+}   
 
 export const getFollowedArtists = createAsyncThunk(
     "auth/getFollowedArtists",
@@ -73,20 +72,19 @@ export const getDevices = createAsyncThunk(
 
 export const startOrResumePlayback = createAsyncThunk(
     "auth/startOrResumePlayback",
-    async (deviceId: string) => {
-     
+    async (credentials: playActionStates) => {
         try {
-            const response = await axios.put(`api/server/me/player/play?device_id=${deviceId}`,
+            const response = await axios.put(`api/server/me/player/${credentials.action}?device_id=${credentials.deviceId}`,
             {
-                'device_id': deviceId,
-                'context_uri': 'spotify:album:5ht7ItJgpBH7W6vJ5BqpPr',
+                'device_id': credentials.deviceId,
+                'context_uri': credentials.albumUri, // 'spotify:album:5ht7ItJgpBH7W6vJ5BqpPr
+                'uris':  credentials.trackUri,
                 'offset': {
                     'position': 5
                 },
                 'position_ms': 0
             },
             );
-            console.log(deviceId)
             return response.data;
         } catch (error) {
             console.error('Hata:', error);
