@@ -1,4 +1,4 @@
-const folderIcon = (props) => (
+const FolderIcon = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={props.size || "60"}
@@ -16,4 +16,4 @@ const folderIcon = (props) => (
   </svg>
 );
 
-export default folderIcon;
+export default FolderIcon;
