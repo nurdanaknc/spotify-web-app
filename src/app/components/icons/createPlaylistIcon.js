@@ -1,4 +1,4 @@
-const createPlaylistIcon = (props) => (
+const CreatePlaylistIcon = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={props.size || "34"}
@@ -16,4 +16,4 @@ const createPlaylistIcon = (props) => (
   </svg>
 );
 
-export default createPlaylistIcon;
+export default CreatePlaylistIcon;

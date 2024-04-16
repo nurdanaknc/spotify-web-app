@@ -1,4 +1,4 @@
-const likedSongsIcon = (props) => (
+const LikedSongsIcon = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="34"
@@ -36,4 +36,4 @@ const likedSongsIcon = (props) => (
   </svg>
 );
 
-export default likedSongsIcon;
+export default LikedSongsIcon;

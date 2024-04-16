@@ -1,9 +1,9 @@
 import React, { use, useEffect, useState } from "react";
-import HomeIcon from "./icons/HomeIcon";
-import SearchIcon from "./icons/SearchIcon";
-import FolderIcon from "./icons/FolderIcon";
-import CreatePlaylistIcon from "./icons/CreatePlaylistIcon";
-import LikedSongsIcon from "./icons/LikedSongsIcon";
+import HomeIcon from "./icons/homeIcon";
+import SearchIcon from "./icons/searchIcon";
+import FolderIcon from "./icons/folderIcon";
+import CreatePlaylistIcon from "./icons/createPlaylistIcon";
+import LikedSongsIcon from "./icons/likedSongsIcon";
 import { getUsersPlaylists, setUsersPlaylists, setSelectedPlaylist } from "@/store/auth";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { get } from "http";
