@@ -12,6 +12,9 @@ interface AuthState {
     usersPlaylists: any[];
     selectedPlaylist: any;
     gradient: string;
+    selectedTrackMs: number;
+    playingTrackMs: number;
+    selectedTrack: any;
 }
  
 
@@ -19,13 +22,16 @@ const initialState: AuthState = {
     deviceId: '',
     usersPlaylists: [],
     selectedPlaylist: null,
-    gradient: ''
+    gradient: '',
+    selectedTrackMs: 0,
+    playingTrackMs: 0,
+    selectedTrack: null,
   };
 
 interface playActionStates {
     deviceId: string;
-    albumUri: string;
-    trackUri: string;
+//    albumUri: string;
+    trackUri: string[];
     action: string;
 }   
 
@@ -77,14 +83,40 @@ export const startOrResumePlayback = createAsyncThunk(
             const response = await axios.put(`api/server/me/player/${credentials.action}?device_id=${credentials.deviceId}`,
             {
                 'device_id': credentials.deviceId,
-                'context_uri': credentials.albumUri, // 'spotify:album:5ht7ItJgpBH7W6vJ5BqpPr
+               // 'spotify:album:5ht7ItJgpBH7W6vJ5BqpPr
                 'uris':  credentials.trackUri,
                 'offset': {
-                    'position': 5
+                    'uri': credentials.trackUri[0]
                 },
                 'position_ms': 0
             },
             );
+            return response.data;
+        } catch (error) {
+            console.error('Hata:', error);
+            throw error;
+        }
+    }
+);
+
+export const getCurrentlyPlaying = createAsyncThunk(
+    "auth/getCurrentlyPlaying",
+    async () => {
+        try {
+            const response = await axios.get('api/server/me/player/currently-playing');
+            return response.data;
+        } catch (error) {
+            console.error('Hata:', error);
+            throw error;
+        }
+    }
+);
+
+export const seekToPosition = createAsyncThunk(
+    "auth/seekToPosition",
+    async (position: number) => {
+        try {
+            const response = await axios.put(`api/server/me/player/seek?position_ms=${position}`);
             return response.data;
         } catch (error) {
             console.error('Hata:', error);
@@ -106,9 +138,18 @@ export const getSelectedPlaylist = createAsyncThunk(
     }
 );
 
-
-
-
+export const pausePlayback = createAsyncThunk(
+    "auth/pausePlayback",
+    async () => {
+        try {
+            const response = await axios.put('api/server/me/player/pause');
+            return response.data;
+        } catch (error) {
+            console.error('Hata:', error);
+            throw error;
+        }
+    }
+);
 
 const authSlice = createSlice({
     name: "auth",
@@ -125,14 +166,22 @@ const authSlice = createSlice({
         },
         setGradient: (state, action: PayloadAction<string>) => {
             state.gradient = action.payload;
+        },
+        setSelectedTrackMs: (state, action: PayloadAction<number>) => {
+            state.selectedTrackMs = action.payload;
+        },
+        setPlayingTrackMs: (state, action: PayloadAction<number>) => {
+            state.playingTrackMs = action.payload;
+        },
+        setSelectedTrack: (state, action: PayloadAction<any>) => {
+            state.selectedTrack = action.payload;
         }
-
 
     },
     
 });
 
-export const { setDeviceId, setUsersPlaylists , setSelectedPlaylist, setGradient} = authSlice.actions;
+export const { setDeviceId, setUsersPlaylists , setSelectedPlaylist, setGradient, setSelectedTrackMs, setPlayingTrackMs, setSelectedTrack} = authSlice.actions;
 
 export default authSlice.reducer;
 
