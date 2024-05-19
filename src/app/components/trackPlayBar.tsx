@@ -55,11 +55,11 @@ export default function TrackPlayBar() {
                   <ForwardIcon size="15" />
                </div>
                <div className="  flex flex-row items-center justify-center gap-3">
-                  <div>{new Date(playingTrackMs).toISOString().substr(14, 5)} </div>
+                  <div>{playingTrackMs ? new Date(playingTrackMs).toISOString().substr(14, 5): "00:00"} </div>
                   <div className="w-[400px] progress-bar-bg bg-grey6 rounded-full h-1 cursor-pointer " onClick={handleClick}>
                      <div className="progress-bar-progress bg-white  h-1 rounded-full" style={{ width: `${progress}%` }}></div>
                   </div>
-                  <div>{new Date(selectedTrackMs).toISOString().substr(14, 5)} </div>
+                  <div>{selectedTrack ? new Date(selectedTrackMs).toISOString().substr(14, 5) : "00:00"} </div>
                </div>
             </div>
 
