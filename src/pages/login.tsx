@@ -48,7 +48,7 @@ export default function Login() {
 
 
             </div>
-            <span className='absolute bottom-3 text-primaryWhite text-xs'>@clientdevcodes</span>
+            <span className='absolute bottom-3 text-primaryWhite text-xs'>@nurdanakinci</span>
         </div>
     );
 }
